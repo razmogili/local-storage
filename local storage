@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage Example</title>
+</head>
+<body>
+    <h1>Local Storage Example</h1>
+
+    <form id="user-form">
+        <input type="text" id="name" placeholder="Enter your name" required><br><br>
+        <input type="number" id="age" placeholder="Enter your age" required><br><br>
+        <input type="email" id="email" placeholder="Enter your email" required><br><br>
+        <button type="submit">Save to Local Storage</button>
+    </form>
+
+    <h2>Stored Data</h2>
+    <div id="stored-data"></div>
+
+    <script>
+        // Function to display stored data from local storage
+        function displayStoredData() {
+            const storedData = JSON.parse(localStorage.getItem('userData'));
+            if (storedData) {
+                document.getElementById('stored-data').innerHTML = `
+                    <ul>
+                        <li><strong>Name:</strong> ${storedData.name}</li>
+                        <li><strong>Age:</strong> ${storedData.age}</li>
+                        <li><strong>Email:</strong> ${storedData.email}</li>
+                    </ul>
+                `;
+            } else {
+                document.getElementById('stored-data').innerHTML = '<p>No data found in local storage.</p>';
+            }
+        }
+
+        // Call the function to display data when the page loads
+        displayStoredData();
+
+        // Save data to local storage when the form is submitted
+        document.getElementById('user-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const email = document.getElementById('email').value;
+
+            // Store the data in an object
+            const userData = {
+                name: name,
+                age: age,
+                email: email
+            };
+
+            // Save the object as a string in local storage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Update the displayed data
+            displayStoredData();
+
+            // Clear form inputs
+            document.getElementById('user-form').reset();
+        });
+    </script>
+</body>
+</html>
